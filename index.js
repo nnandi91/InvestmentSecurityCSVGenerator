@@ -5,7 +5,7 @@ const rl = require('readline');
 
 
 
-const path = "C:/temp2/";
+const path = "C:/temp/";
 
 function createCSVFiles(cb){
   return new Promise((resolve, reject) =>{
