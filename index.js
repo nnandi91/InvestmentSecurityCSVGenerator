@@ -5,13 +5,18 @@ const rl = require('readline');
 
 
 
-const path = "C:/temp/";
+const path = "C:/temp2/";
 
-function createCSVFiles(){
-  let repo = new DataRepo();
-  for(let ticker of spList){
-    repo.GetAllHistoricStockInfo(ticker, path);
-  }
+function createCSVFiles(cb){
+  return new Promise((resolve, reject) =>{
+    let repo = new DataRepo();  
+    Promise.all(spList.map(ticker => repo.GetAllHistoricStockInfo(ticker, path))).then(results => {
+      resolve()
+    }).catch(e=>{
+      reject(e)
+    })
+  })
+  
 }
 
 function generateSingleCSVFile(){
@@ -36,5 +41,8 @@ function generateSingleCSVFile(){
     }
   })
 }
-
-generateSingleCSVFile();
+createCSVFiles().then(()=>{
+  generateSingleCSVFile();
+}).catch(e=>{
+  console.log(e);
+})
